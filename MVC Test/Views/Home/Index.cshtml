@@ -1,0 +1,95 @@
+﻿
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <style type="text/css">
+        .container {
+            display: table;
+        }
+
+        .row {
+            display: table-row;
+        }
+
+        .left, .right, .middle {
+            display: table-cell;
+            width: 150px;
+            
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadProducts();
+        });
+
+
+        function LoadProducts() {
+
+            var urlLink = "/Home/GetProducts";
+            $.ajax({
+                url: urlLink,
+                type: 'POST',
+                success: function (data) {
+                    
+                    $.each(data.results, function (ind, val) {
+                       
+                        var newItem = [{
+                            productID: val.ProductID,
+                            productName: val.ProductName,
+                            productPrice: val.ProductPrice,
+                        }];
+                        $('#productItemTemplate').tmpl(newItem).appendTo("#idProducts");
+                    });
+                },
+            });
+
+           
+            
+        }
+
+    </script>
+</head>
+<body>
+    <div >
+        <div id="idProducts" class="container" >
+            <div class="row">
+                <div class="left">
+                    <h4>ID</h4>
+                </div>
+
+                <div class="middle">
+                    <h4>Product Name</h4>
+                </div>
+
+                <div class="right">
+                    <h4>Price</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="productItemTemplate" type="text/x-jquery-tmpl">
+        <div class="row">
+            <div class="left">
+                <h4>${productID}</h4>
+            </div>
+
+            <div class="middle">
+                <h4>${productName}e</h4>
+            </div>
+
+            <div class="right">
+                <h4>${productPrice}</h4>
+            </div>
+        </div>
+    </script>
+</body>
+
+
+</html>
